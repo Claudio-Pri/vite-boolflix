@@ -1,19 +1,16 @@
-<script>
+<!-- <script>
+import {store} from '../store.js';
 export default {
   data() {
     return { 
-      message: 'Template Vite + Vue'
+      store,
     }
   }
 }
 </script>
 
 <template>
-  <header>
-    <h1>
-      {{ message }}
-    </h1>
-  </header>
+  
 </template>
 
 <style lang="scss" scoped>
@@ -28,4 +25,4 @@ header {
 h1 {
   color: $mainColor;
 }
-</style>
+</style> -->

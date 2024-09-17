@@ -6,39 +6,86 @@
   3) Utilizzo del componente
 */
 // 1) Importazione del componente
-import AppHeader from './components/AppHeader.vue';
+import {store} from './store.js';
+import axios from 'axios';
+// import AppHeader from './components/AppHeader.vue';
 
 export default {
   data() {
     return { 
-      count: 0
+      //store: store,
+      store,
     }
   },
   // 2) Dichiarazione del componente
   components: {
-    AppHeader
+   
   },
   methods: {
-    incrementCount() {
-      this.count++;
+    search() {
+
+        console.log('SEARCHING: ', store.searchText);
+
+        axios
+        .get('https://api.themoviedb.org/3/search/movie', {
+          params: {
+            api_key: store.apiKey,
+            query: store.searchText
+          }
+        })
+        .then((res) => {
+          console.log(res.data);
+          store.movies = res.data.results;
+          console.log(store.movies);
+        });
+      }
     }
   }
-}
 </script>
 
 <template>
-  <div>
-    <!-- 3) Utilizzo del componente -->
-    <AppHeader />
-    
-    <main>
-      <button @click="incrementCount()">
-        {{ count }}
-      </button>
-    </main>
-  </div>
+  <header>
+    <div>
+      <h1 class="bg-warning">
+        BIOPARCO
+      </h1>
+      <form @submit.prevent="search()">
+        <input type="text" v-model="store.searchText" placeholder="Cerca un film...">
+        <button type="submit">
+          Cerca
+        </button>
+      </form>
+      <!-- <h1>
+        {{ store.searchText }}
+      </h1> -->
+    </div>
+  </header>
+  <main>
+    <ol>
+      <li v-for="(movie, i) in store.movies" :key="i">
+        <ul>
+          <li>
+            Titolo: {{ movie.title }}
+          </li>
+          <li>
+            Titolo originale: {{ movie.original_title }}
+          </li>
+          <li>
+            Lingua: {{ movie.original_language }}
+          </li>
+          <li>
+            Voto: {{ movie.vote_average }}
+          </li>
+        </ul>
+
+        <hr>
+
+      </li>
+    </ol>
+  </main>
 </template>
 
 <style lang="scss">
 @use 'assets/scss/main' as *;
+@import "bootstrap/scss/bootstrap";
 </style>
