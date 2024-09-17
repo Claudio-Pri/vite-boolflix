@@ -38,7 +38,26 @@ export default {
           store.movies = res.data.results;
           console.log(store.movies);
         });
-      }
+      },
+      getFlag(lang) {
+        const validLangs = {
+          de: 'de.png',
+          en: 'en.png',
+          es: 'es.png',
+          fr: 'fr.png',
+          it: 'it.png',
+          ja: 'jp.png',
+          pt: 'pt.png'
+        };
+
+        if(lang in validLangs) {
+         return '/img/' + validLangs[lang]
+          
+        }
+        else {
+          return '/img/eu.png'
+        }
+      },
     }
   }
 </script>
@@ -71,7 +90,8 @@ export default {
             Titolo originale: {{ movie.original_title }}
           </li>
           <li>
-            Lingua: {{ movie.original_language }}
+            <!-- Lingua: {{ movie.original_language }} -->
+            Lingua: <img :src="getFlag(movie.original_language)" alt="">
           </li>
           <li>
             Voto: {{ movie.vote_average }}
