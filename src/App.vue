@@ -71,6 +71,10 @@ export default {
           return '/img/eu.png'
         }
       },
+      getRoundedVote(number) {
+        const roundedVote = Math.ceil(number / 2);
+        return roundedVote;
+      }
     }
   }
 </script>
@@ -110,7 +114,7 @@ export default {
             Lingua: <img class="lang-flag" :src="getFlag(movie.original_language)" alt="">
           </li>
           <li>
-            Voto: {{ movie.vote_average }}
+            Voto: {{ getRoundedVote(movie.vote_average) }}
           </li>
         </ul>
 
@@ -134,7 +138,7 @@ export default {
             Lingua: <img class="lang-flag" :src="getFlag(serie.original_language)" alt="">
           </li>
           <li>
-            Voto: {{ serie.vote_average }}
+            Voto: {{ getRoundedVote(serie.vote_average) }}
           </li>
         </ul>
 
