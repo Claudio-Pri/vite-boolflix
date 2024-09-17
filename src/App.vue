@@ -50,6 +50,7 @@ export default {
           store.series = res.data.results;
           console.log(store.series);
         });
+        
       },
       getFlag(lang) {
         const validLangs = {
@@ -78,12 +79,12 @@ export default {
   <header>
     <div>
       <h1 class="bg-warning">
-        BIOPARCO
+        BOOLFLIX
       </h1>
       <form @submit.prevent="search()">
         <input type="text" v-model="store.searchText" placeholder="Cerca un film...">
         <button type="submit">
-          Cerca
+          <i class="fa-solid fa-magnifying-glass"></i>
         </button>
       </form>
       <!-- <h1>
@@ -96,6 +97,7 @@ export default {
     <h1>Film</h1>
     <ol>
       <li v-for="(movie, i) in store.movies" :key="i">
+        <img class="img-fluid" :src="'https://image.tmdb.org/t/p/w185' + movie.poster_path" :alt="movie.title">
         <ul>
           <li>
             Titolo: {{ movie.title }}
@@ -105,7 +107,7 @@ export default {
           </li>
           <li>
             <!-- Lingua: {{ movie.original_language }} -->
-            Lingua: <img :src="getFlag(movie.original_language)" alt="">
+            Lingua: <img class="lang-flag" :src="getFlag(movie.original_language)" alt="">
           </li>
           <li>
             Voto: {{ movie.vote_average }}
@@ -120,6 +122,7 @@ export default {
     <h1>Serie TV</h1>
     <ol>
       <li v-for="(serie, i) in store.series" :key="i">
+        <img class="img-fluid" :src="'https://image.tmdb.org/t/p/w185' + serie.poster_path" :alt="serie.name">
         <ul>
           <li>
             Titolo: {{ serie.name }}
@@ -128,7 +131,7 @@ export default {
             Titolo originale: {{ serie.original_name }}
           </li>
           <li>
-            Lingua: <img :src="getFlag(serie.original_language)" alt="">
+            Lingua: <img class="lang-flag" :src="getFlag(serie.original_language)" alt="">
           </li>
           <li>
             Voto: {{ serie.vote_average }}
