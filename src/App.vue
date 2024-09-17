@@ -38,6 +38,18 @@ export default {
           store.movies = res.data.results;
           console.log(store.movies);
         });
+        axios
+        .get('https://api.themoviedb.org/3/search/tv', {
+          params: {
+            api_key: store.apiKey,
+            query: store.searchText
+          }
+        })
+        .then((res) => {
+          console.log(res.data);
+          store.series = res.data.results;
+          console.log(store.series);
+        });
       },
       getFlag(lang) {
         const validLangs = {
@@ -80,6 +92,8 @@ export default {
     </div>
   </header>
   <main>
+
+    <h1>Film</h1>
     <ol>
       <li v-for="(movie, i) in store.movies" :key="i">
         <ul>
@@ -95,6 +109,29 @@ export default {
           </li>
           <li>
             Voto: {{ movie.vote_average }}
+          </li>
+        </ul>
+
+        <hr>
+
+      </li>
+    </ol>
+    <hr>
+    <h1>Serie TV</h1>
+    <ol>
+      <li v-for="(serie, i) in store.series" :key="i">
+        <ul>
+          <li>
+            Titolo: {{ serie.name }}
+          </li>
+          <li>
+            Titolo originale: {{ serie.original_name }}
+          </li>
+          <li>
+            Lingua: <img :src="getFlag(serie.original_language)" alt="">
+          </li>
+          <li>
+            Voto: {{ serie.vote_average }}
           </li>
         </ul>
 
