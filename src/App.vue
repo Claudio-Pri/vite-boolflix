@@ -131,13 +131,13 @@ export default {
 
     <div class="container">
       
-          <h2 class="py-3">Film</h2>
+          <h2 class="py-2">Film</h2>
           <ol>
             <div class="row">
               <div v-for="(movie, i) in store.movies" :key="i" class="col-3">
-                <li class="d-flex my-3">
-                  <img class="img-fluid me-2" :src="'https://image.tmdb.org/t/p/w185' + movie.poster_path" :alt="movie.title">
-                  <ul>
+                <li class="my-3 card">
+                  <img class="img-fluid card-img-top" :src="'https://image.tmdb.org/t/p/w185' + movie.poster_path" :alt="movie.title">
+                  <ul class="card-body">
                       <li>
                         Titolo: {{ movie.title }}
                       </li>
@@ -150,10 +150,10 @@ export default {
                       </li>
                       <li>
                         <span v-for="x in (getRoundedVote(movie.vote_average))" :key="x">
-                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star text-warning"></i>
                         </span>
                         <span v-for="x in (5 - (getRoundedVote(movie.vote_average)))" :key="x">
-                          <i class="fa-regular fa-star"></i>
+                          <i class="fa-regular fa-star text-warning"></i>
                         </span>
                       </li>
                   </ul>
@@ -169,14 +169,14 @@ export default {
 
     <div class="container">
       
-          <h2 class="py-3">Serie TV</h2>
+          <h2 class="py-2">Serie TV</h2>
 
           <ol>
             <div class="row">
               <div  v-for="(serie, i) in store.series" :key="i" class="col-3">
-                <li class="d-flex my-3">
-                    <img class="img-fluid me-2" :src="'https://image.tmdb.org/t/p/w185' + serie.poster_path" :alt="serie.name">
-                    <ul>
+                <li class="my-3 card">
+                    <img class="img-fluid card-img-top" :src="'https://image.tmdb.org/t/p/w185' + serie.poster_path" :alt="serie.name">
+                    <ul class="card-body">
                       <li>
                         Titolo: {{ serie.name }}
                       </li>
@@ -188,10 +188,10 @@ export default {
                       </li>
                       <li>
                         <span v-for="x in (getRoundedVote(serie.vote_average))" :key="x">
-                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star text-warning"></i>
                         </span>
                         <span v-for="x in (5 - (getRoundedVote(serie.vote_average)))" :key="x">
-                          <i class="fa-regular fa-star"></i>
+                          <i class="fa-regular fa-star text-warning"></i>
                         </span>
                       </li>
                     </ul>
@@ -219,15 +219,16 @@ ol,
 ul {
     list-style: none;
     padding: 0;
+    
 }
-// ol{
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-between;
-//   flex-wrap: wrap;
-//   li {
-//     padding: 0 20px;
-//   }
-// }
+.card .card-body {
+  display: none;
+}
+.card:hover .card-body {
+  display: block;
+
+}
+
+
 
 </style>
