@@ -80,76 +80,116 @@ export default {
 </script>
 
 <template>
-  <header>
-    <div>
-      <h1 class="bg-warning">
+  <header class="py-3 bg-dark">
+    <div class="container d-flex align-items-center justify-content-between">
+      <h1 class="text-danger">
         BOOLFLIX
       </h1>
-      <form @submit.prevent="search()">
-        <input type="text" v-model="store.searchText" placeholder="Cerca un film...">
-        <button type="submit">
+      <form class="d-flex" @submit.prevent="search()">
+        <input class="form-control  me-2" type="text" v-model="store.searchText" placeholder="Cerca un film...">
+        <button class="btn btn-light" type="submit">
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
       </form>
-      <!-- <h1>
-        {{ store.searchText }}
-      </h1> -->
+      
     </div>
   </header>
   <main>
 
-    <h1>Film</h1>
-    <ol>
-      <li v-for="(movie, i) in store.movies" :key="i">
-        <img class="img-fluid" :src="'https://image.tmdb.org/t/p/w185' + movie.poster_path" :alt="movie.title">
-        <ul>
-          <li>
-            Titolo: {{ movie.title }}
-          </li>
-          <li>
-            Titolo originale: {{ movie.original_title }}
-          </li>
-          <li>
-            <!-- Lingua: {{ movie.original_language }} -->
-            Lingua: <img class="lang-flag" :src="getFlag(movie.original_language)" alt="">
-          </li>
-          <li>
-            Voto: {{ getRoundedVote(movie.vote_average) }}
-          </li>
-        </ul>
+    <div class="container">
+      <div>
+        <div>
+          <h1>Film</h1>
+          <ol>
+            <li v-for="(movie, i) in store.movies" :key="i">
+              <img class="img-fluid" :src="'https://image.tmdb.org/t/p/w185' + movie.poster_path" :alt="movie.title">
+              <ul>
+                <li>
+                  Titolo: {{ movie.title }}
+                </li>
+                <li>
+                  Titolo originale: {{ movie.original_title }}
+                </li>
+                <li>
+                  <!-- Lingua: {{ movie.original_language }} -->
+                  Lingua: <img class="lang-flag" :src="getFlag(movie.original_language)" alt="">
+                </li>
+                <li>
+                  <span v-for="x in (getRoundedVote(movie.vote_average))" :key="x">
+                    <i class="fa-solid fa-star"></i>
+                  </span>
+                  <span v-for="x in (5 - (getRoundedVote(movie.vote_average)))" :key="x">
+                    <i class="fa-regular fa-star"></i>
+                  </span>
+                </li>
+              </ul>
 
-        <hr>
+              <hr>
 
-      </li>
-    </ol>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
     <hr>
-    <h1>Serie TV</h1>
-    <ol>
-      <li v-for="(serie, i) in store.series" :key="i">
-        <img class="img-fluid" :src="'https://image.tmdb.org/t/p/w185' + serie.poster_path" :alt="serie.name">
-        <ul>
-          <li>
-            Titolo: {{ serie.name }}
-          </li>
-          <li>
-            Titolo originale: {{ serie.original_name }}
-          </li>
-          <li>
-            Lingua: <img class="lang-flag" :src="getFlag(serie.original_language)" alt="">
-          </li>
-          <li>
-            Voto: {{ getRoundedVote(serie.vote_average) }}
-          </li>
-        </ul>
 
-        <hr>
+    <div class="container">
+      <div>
+        <div>
+          <h1>Serie TV</h1>
+          <ol>
+            <li v-for="(serie, i) in store.series" :key="i">
+              <img class="img-fluid" :src="'https://image.tmdb.org/t/p/w185' + serie.poster_path" :alt="serie.name">
+              <ul>
+                <li>
+                  Titolo: {{ serie.name }}
+                </li>
+                <li>
+                  Titolo originale: {{ serie.original_name }}
+                </li>
+                <li>
+                  Lingua: <img class="lang-flag" :src="getFlag(serie.original_language)" alt="">
+                </li>
+                <li>
+                  <span v-for="x in (getRoundedVote(serie.vote_average))" :key="x">
+                    <i class="fa-solid fa-star"></i>
+                  </span>
+                  <span v-for="x in (5 - (getRoundedVote(serie.vote_average)))" :key="x">
+                    <i class="fa-regular fa-star"></i>
+                  </span>
+                </li>
+              </ul>
 
-      </li>
-    </ol>
+              <hr>
+
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
   </main>
 </template>
 
 <style lang="scss">
 @use 'assets/scss/main' as *;
 @import "bootstrap/scss/bootstrap";
+
+img.lang-flag {
+    max-width: 35px;
+}
+
+ol,
+ul {
+    list-style: none;
+    padding: 0;
+}
+ol{
+  display: flex;
+  flex-wrap: wrap;
+  li {
+    padding: 0 20px;
+  }
+}
+
 </style>
