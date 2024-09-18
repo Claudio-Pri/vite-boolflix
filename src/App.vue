@@ -21,11 +21,41 @@ export default {
   components: {
    
   },
+
+  created() { 
+          // if(this.store.searchText == '') {}
+      axios
+        .get('https://api.themoviedb.org/3/movie/popular', {
+          params: {
+            api_key: store.apiKey,
+            
+          }
+        })
+        .then((res) => {
+          console.log(res.data);
+          store.movies = res.data.results;
+          console.log(store.movies);
+        });
+
+      axios
+        .get('https://api.themoviedb.org/3/tv/popular', {
+          params: {
+            api_key: store.apiKey,
+            
+          }
+        })
+        .then((res) => {
+          console.log(res.data);
+          store.series = res.data.results;
+          console.log(store.series);
+        });
+    
+    
+      
+  },
+
   methods: {
     search() {
-
-        console.log('SEARCHING: ', store.searchText);
-
         axios
         .get('https://api.themoviedb.org/3/search/movie', {
           params: {
@@ -50,6 +80,9 @@ export default {
           store.series = res.data.results;
           console.log(store.series);
         });
+      
+
+        
         
       },
       getFlag(lang) {
@@ -97,76 +130,79 @@ export default {
   <main>
 
     <div class="container">
-      <div>
-        <div>
-          <h1>Film</h1>
+      
+          <h2 class="py-3">Film</h2>
           <ol>
-            <li v-for="(movie, i) in store.movies" :key="i">
-              <img class="img-fluid" :src="'https://image.tmdb.org/t/p/w185' + movie.poster_path" :alt="movie.title">
-              <ul>
-                <li>
-                  Titolo: {{ movie.title }}
+            <div class="row">
+              <div v-for="(movie, i) in store.movies" :key="i" class="col-3">
+                <li class="d-flex my-3">
+                  <img class="img-fluid me-2" :src="'https://image.tmdb.org/t/p/w185' + movie.poster_path" :alt="movie.title">
+                  <ul>
+                      <li>
+                        Titolo: {{ movie.title }}
+                      </li>
+                      <li>
+                        Titolo originale: {{ movie.original_title }}
+                      </li>
+                      <li>
+                        <!-- Lingua: {{ movie.original_language }} -->
+                        Lingua: <img class="lang-flag" :src="getFlag(movie.original_language)" alt="">
+                      </li>
+                      <li>
+                        <span v-for="x in (getRoundedVote(movie.vote_average))" :key="x">
+                          <i class="fa-solid fa-star"></i>
+                        </span>
+                        <span v-for="x in (5 - (getRoundedVote(movie.vote_average)))" :key="x">
+                          <i class="fa-regular fa-star"></i>
+                        </span>
+                      </li>
+                  </ul>
                 </li>
-                <li>
-                  Titolo originale: {{ movie.original_title }}
-                </li>
-                <li>
-                  <!-- Lingua: {{ movie.original_language }} -->
-                  Lingua: <img class="lang-flag" :src="getFlag(movie.original_language)" alt="">
-                </li>
-                <li>
-                  <span v-for="x in (getRoundedVote(movie.vote_average))" :key="x">
-                    <i class="fa-solid fa-star"></i>
-                  </span>
-                  <span v-for="x in (5 - (getRoundedVote(movie.vote_average)))" :key="x">
-                    <i class="fa-regular fa-star"></i>
-                  </span>
-                </li>
-              </ul>
-
-              <hr>
-
-            </li>
+              </div>
+            </div>
+            
           </ol>
-        </div>
-      </div>
+        
     </div>
 
     <hr>
 
     <div class="container">
-      <div>
-        <div>
-          <h1>Serie TV</h1>
+      
+          <h2 class="py-3">Serie TV</h2>
+
           <ol>
-            <li v-for="(serie, i) in store.series" :key="i">
-              <img class="img-fluid" :src="'https://image.tmdb.org/t/p/w185' + serie.poster_path" :alt="serie.name">
-              <ul>
-                <li>
-                  Titolo: {{ serie.name }}
-                </li>
-                <li>
-                  Titolo originale: {{ serie.original_name }}
-                </li>
-                <li>
-                  Lingua: <img class="lang-flag" :src="getFlag(serie.original_language)" alt="">
-                </li>
-                <li>
-                  <span v-for="x in (getRoundedVote(serie.vote_average))" :key="x">
-                    <i class="fa-solid fa-star"></i>
-                  </span>
-                  <span v-for="x in (5 - (getRoundedVote(serie.vote_average)))" :key="x">
-                    <i class="fa-regular fa-star"></i>
-                  </span>
-                </li>
-              </ul>
+            <div class="row">
+              <div  v-for="(serie, i) in store.series" :key="i" class="col-3">
+                <li class="d-flex my-3">
+                    <img class="img-fluid me-2" :src="'https://image.tmdb.org/t/p/w185' + serie.poster_path" :alt="serie.name">
+                    <ul>
+                      <li>
+                        Titolo: {{ serie.name }}
+                      </li>
+                      <li>
+                        Titolo originale: {{ serie.original_name }}
+                      </li>
+                      <li>
+                        Lingua: <img class="lang-flag" :src="getFlag(serie.original_language)" alt="">
+                      </li>
+                      <li>
+                        <span v-for="x in (getRoundedVote(serie.vote_average))" :key="x">
+                          <i class="fa-solid fa-star"></i>
+                        </span>
+                        <span v-for="x in (5 - (getRoundedVote(serie.vote_average)))" :key="x">
+                          <i class="fa-regular fa-star"></i>
+                        </span>
+                      </li>
+                    </ul>
 
-              <hr>
+                </li>
+              </div>
+            </div>
+            
 
-            </li>
           </ol>
-        </div>
-      </div>
+        
     </div>
   </main>
 </template>
@@ -184,12 +220,14 @@ ul {
     list-style: none;
     padding: 0;
 }
-ol{
-  display: flex;
-  flex-wrap: wrap;
-  li {
-    padding: 0 20px;
-  }
-}
+// ol{
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   flex-wrap: wrap;
+//   li {
+//     padding: 0 20px;
+//   }
+// }
 
 </style>
