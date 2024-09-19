@@ -113,25 +113,27 @@ export default {
 </script>
 
 <template>
-  <header class="py-3 bg-dark">
+  <header class="py-3">
     <div class="container d-flex align-items-center justify-content-between">
       <h1 class="text-danger">
         BOOLFLIX
       </h1>
       <form class="d-flex" @submit.prevent="search()">
         <input class="form-control  me-2" type="text" v-model="store.searchText" placeholder="Cerca un film...">
-        <button class="btn btn-light" type="submit">
+        <button class="btn btn-danger" type="submit">
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
       </form>
       
     </div>
   </header>
-  <main>
+
+
+  <main class="bg-dark">
 
     <div class="container">
       
-          <h2 class="py-2">Film</h2>
+          <h2 class="py-2 text-light">Film</h2>
           <ol>
             <div class="row">
               <div v-for="(movie, i) in store.movies" :key="i" class="col-3">
@@ -156,6 +158,9 @@ export default {
                           <i class="fa-regular fa-star text-warning"></i>
                         </span>
                       </li>
+                      <li>
+                        Overview: {{ movie.overview }}
+                      </li>
                   </ul>
                 </li>
               </div>
@@ -169,7 +174,7 @@ export default {
 
     <div class="container">
       
-          <h2 class="py-2">Serie TV</h2>
+          <h2 class="py-2 text-light">Serie TV</h2>
 
           <ol>
             <div class="row">
@@ -194,6 +199,9 @@ export default {
                           <i class="fa-regular fa-star text-warning"></i>
                         </span>
                       </li>
+                      <li>
+                        Overview: {{ serie.overview }}
+                      </li>
                     </ul>
 
                 </li>
@@ -214,6 +222,9 @@ export default {
 img.lang-flag {
     max-width: 35px;
 }
+header {
+  background-color: black;
+}
 
 ol,
 ul {
@@ -221,11 +232,17 @@ ul {
     padding: 0;
     
 }
-.card .card-body {
+.col-3 .card-body {
   display: none;
 }
-.card:hover .card-body {
+.col-3:hover .card-body {
   display: block;
+  
+
+}
+.col-3:hover img {
+  display: none;
+  
 
 }
 
